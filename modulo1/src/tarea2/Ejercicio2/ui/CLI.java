@@ -116,7 +116,7 @@ public class CLI {
     /**
      * Definir acciones para hacer equipos.
      */
-    private static MenuAccion make_teams = () -> {
+    private static MenuAccion hacer_equipos = () -> {
         int index;
         char option = ' ';
         Scanner input = new Scanner(System.in);
@@ -140,30 +140,30 @@ public class CLI {
                         }
                     }
 
-                    SoccerPlayer soccerCapitain = soccerCapitains.get(index).get();
-                    if (!soccerCapitain.getHasTeam()) {
-                        soccerCapitain.setHasTeam(true);
+                    JugadorFutbol soccerCapitain = capitan.get(index).get();
+                    if (!soccerCapitain.obtEquipo();) {
+                        soccerCapitain.obtEquipo(true);
 
-                        soccerTeams.get(i).add(soccerCapitain);
+                        equipos.get(i).add(soccerCapitain);
                         break;
                     } else {
-                        System.out.println(SOCCER_PLAYER_ERROR);
+                        System.out.println(ERROR_NUMERICO);
                     }
 
                 } catch (IndexOutOfBoundsException e) {
-                    System.out.println("Ha ocurrido el siguiente problema al ejecutar la operación: " + e);
+                    System.out.println("Ha ocurrido un problema al ejecutar el procedimiento: " + e);
                 }
             }
 
-            //Adding players.
+            //Agregar jugadores.
             while(true){
                 while (option != 'a' && option != 'b') {
-                    System.out.println(ADD_PLAYER);
+                    System.out.println(AGREGAR_JUGADORES);
                     option = input.next().charAt(0);
                 }
                 if (option == 'a') {
                     try {
-                        System.out.printf(INPUT_PLAYER_TEAM, i);
+                        System.out.printf(INGRESAR_EQUIPO, i);
                         while (true) {
                             try {
                                 index = input.nextInt();
@@ -171,21 +171,21 @@ public class CLI {
                                 break;
                             } catch (InputMismatchException e) {
                                 input.nextLine();
-                                System.out.print(NUMERIC_TYPE_ERROR);
+                                System.out.print(ERROR_NUMERICO);
                             }
                         }
 
-                        SoccerPlayer soccerPlayer = soccerPlayers.get(index).get();
-                        if (!soccerPlayer.getHasTeam()) {
-                            soccerPlayer.setHasTeam(true);
-                            soccerTeams.get(i).add(soccerPlayer);
+                        JugadorFutbol soccerPlayer = jugadorFutbol.get(index).get();
+                        if (!soccerPlayer.obtEsCapitan()) {
+                            soccerPlayer.obtEquipo(true);
+                            equipos.get(i).add(jugadorFutbol);
                             option = ' ';
                         } else {
-                            System.out.println(SOCCER_PLAYER_ERROR);
+                            System.out.println(ERROR_NUMERICO);
                         }
                     }
                     catch (IndexOutOfBoundsException e){
-                        System.out.println("Ha ocurrido el siguiente problema al ejecutar la operación: " + e);
+                        System.out.println("Ha ocurrido un problema al ejecutar el procedimiento: " + e);
                     }
                 } else {
                     break;
@@ -194,30 +194,30 @@ public class CLI {
         }
     };
 
-    private static MenuActionPrototype showTeams = () -> {
-        for (int i = 0; i < soccerTeams.size(); ++i) {
+    private static MenuAccion mostrarEquipos = () -> {
+        for (int i = 0; i < equipos.size(); ++i) {
             System.out.println("Equipo " + i);
-            for (int j = 0; j < soccerTeams.get(i).size(); j++) {
-                Optional<SoccerPlayer> sc = soccerTeams.get(i).get(j);
+            for (int j = 0; j < equipos.get(i).size(); j++) {
+                Optional<JugadorFutbol> sc = jugadorFutbol.get(i).get(j);
                 System.out.println(sc);
             }
         }
     };
 
     /**
-     * Adding the menu options and actions.
+     * Agregar opciones de menu.
      */
     static {
         menu
-                .addOption(ADD_CAPITAINS, add_capitains)
-                .addOption(ADD_PLAYERS, add_players)
-                .addOption(MAKE_TEAMS, make_teams)
-                .addOption(SHOW_TEAMS, showTeams)
+                .addOption(AGREGAR_CAPITAN, agregar_capitan)
+                .addOption(AGREGAR_JUGADORES, agregar_jugadores)
+                .addOption(HACER_EQUIPOS, hacer_equipos)
+                .addOption(MOSTRAR_EQUIPOS, mostrarEquipos)
                 .addExitOption();
     }
 
     /**
-     * Showing the menu and executing the actions associated to each option.
+     * Mostrar menu y sus opciones relacionadas.
      */
     public static void launchApp() {
         do {
