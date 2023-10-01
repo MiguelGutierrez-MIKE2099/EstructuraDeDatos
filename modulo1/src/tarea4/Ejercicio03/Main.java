@@ -1,7 +1,6 @@
-package evidencia1.main;
+package tarea4.Ejercicio03;
 
-import evidencia1.ui.CLI;
-
+import tarea4.Ejercicio03.ui.CLI;
 public class Main {
     public static void main(String[] args) {
         CLI.launchApp();
